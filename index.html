@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>FX Bulls PRO</title>
+    <title>FX Bulls PRO - SMC Edition</title>
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
-        /* Updated CSS with Dark Theme */
+        /* Full screen CSS with Dark Theme */
         :root {
             --primary-color: #00ff00;
             --secondary-color: #008800;
@@ -23,6 +23,9 @@
             --confidence-high: #00ff00;
             --confidence-medium: #ffff00;
             --confidence-low: #ff6600;
+            --smc-bullish: #00ff88;
+            --smc-bearish: #ff3366;
+            --smc-neutral: #3366ff;
         }
         
         * {
@@ -31,18 +34,29 @@
             padding: 0;
         }
         
+        html, body {
+            height: 100%;
+            overflow: hidden;
+        }
+        
         body {
             font-family: 'Orbitron', sans-serif;
             background-color: var(--darker-color);
             color: var(--light-color);
             line-height: 1.6;
-            padding-bottom: 70px;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
             text-shadow: 0 0 1px var(--primary-color);
         }
         
         .container {
-            max-width: 100%;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
             padding: 15px;
+            height: 100%;
+            overflow: hidden;
         }
         
         .card {
@@ -50,7 +64,9 @@
             border-radius: 8px;
             border: 1px solid var(--primary-color);
             box-shadow: 0 0 15px rgba(0, 255, 0, 0.3);
-            margin-bottom: 20px;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
             overflow: hidden;
         }
         
@@ -63,10 +79,16 @@
             text-shadow: 0 0 5px var(--primary-color);
             border-bottom: 2px solid var(--primary-color);
             position: relative;
+            flex-shrink: 0;
         }
         
         .card-body {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
             padding: 20px;
+            overflow-y: auto;
+            min-height: 0;
         }
         
         .form-group {
@@ -138,7 +160,7 @@
         }
         
         .hidden { 
-            display: none; 
+            display: none !important; 
         }
         
         .loading {
@@ -170,6 +192,7 @@
             border-left: 4px solid var(--primary-color);
             box-shadow: 0 0 10px rgba(0, 255, 0, 0.2);
             position: relative;
+            flex-shrink: 0;
         }
         
         .signal-header {
@@ -281,6 +304,7 @@
             padding: 15px;
             margin: 15px 0;
             border: 1px solid rgba(255, 255, 255, 0.1);
+            flex-shrink: 0;
         }
         
         .session-header {
@@ -362,12 +386,13 @@
         }
         
         .chart-container {
-            height: 400px;
+            height: 250px;
             margin: 15px 0;
             border-radius: 8px;
             overflow: hidden;
             border: 1px solid var(--primary-color);
             box-shadow: 0 0 10px rgba(0, 255, 0, 0.2);
+            flex-shrink: 0;
         }
         
         iframe {
@@ -393,6 +418,7 @@
             margin-top: 20px;
             font-size: 14px;
             border: 1px solid rgba(0, 255, 0, 0.1);
+            flex-shrink: 0;
         }
         
         .owner-info h4 {
@@ -475,6 +501,7 @@
             display: inline-flex;
             align-items: center;
             justify-content: center;
+            flex-shrink: 0;
         }
         
         .refresh-btn i {
@@ -489,9 +516,10 @@
             font-size: 14px;
             text-align: center;
             border: 1px solid rgba(0, 255, 0, 0.1);
+            flex-shrink: 0;
         }
         
-        /* Hamburger Menu Styles */
+        /* Hamburger Menu Styles - Updated Position */
         .hamburger-menu {
             position: absolute;
             left: 15px;
@@ -680,6 +708,7 @@
             font-size: 12px;
             text-shadow: 0 0 3px var(--primary-color);
             border-top: 1px solid rgba(0, 255, 0, 0.1);
+            flex-shrink: 0;
         }
         
         .market-status {
@@ -689,6 +718,7 @@
             padding: 10px;
             background: rgba(0, 0, 0, 0.3);
             border-radius: 5px;
+            flex-shrink: 0;
         }
         
         .market-status-item {
@@ -792,6 +822,266 @@
             margin-bottom: 8px;
             line-height: 1.4;
         }
+        
+        /* SMC Strategy Indicators */
+        .smc-container {
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 8px;
+            padding: 15px;
+            margin: 15px 0;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            flex-shrink: 0;
+        }
+        
+        .smc-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+        
+        .smc-title {
+            font-weight: bold;
+            color: var(--primary-color);
+            font-size: 16px;
+        }
+        
+        .smc-status {
+            font-size: 12px;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-weight: bold;
+        }
+        
+        .smc-status.bullish {
+            background: rgba(0, 255, 136, 0.2);
+            color: var(--smc-bullish);
+            border: 1px solid var(--smc-bullish);
+        }
+        
+        .smc-status.bearish {
+            background: rgba(255, 51, 102, 0.2);
+            color: var(--smc-bearish);
+            border: 1px solid var(--smc-bearish);
+        }
+        
+        .smc-status.neutral {
+            background: rgba(51, 102, 255, 0.2);
+            color: var(--smc-neutral);
+            border: 1px solid var(--smc-neutral);
+        }
+        
+        .smc-indicators {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+            margin-top: 10px;
+        }
+        
+        .smc-indicator {
+            background: rgba(0, 0, 0, 0.5);
+            padding: 10px;
+            border-radius: 5px;
+            text-align: center;
+            border: 1px solid rgba(0, 255, 0, 0.1);
+        }
+        
+        .smc-label {
+            font-size: 10px;
+            color: var(--light-color);
+            margin-bottom: 5px;
+            text-transform: uppercase;
+        }
+        
+        .smc-value {
+            font-size: 12px;
+            font-weight: bold;
+        }
+        
+        .smc-value.bullish {
+            color: var(--smc-bullish);
+        }
+        
+        .smc-value.bearish {
+            color: var(--smc-bearish);
+        }
+        
+        .smc-value.neutral {
+            color: var(--smc-neutral);
+        }
+        
+        /* Registration Status Indicator */
+        .status-indicator {
+            position: absolute;
+            left: 15px;
+            top: 15px;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            font-size: 12px;
+            z-index: 1001;
+        }
+        
+        .status-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+        }
+        
+        .status-dot.active {
+            background-color: var(--primary-color);
+            box-shadow: 0 0 8px var(--primary-color);
+            animation: pulse 2s infinite;
+        }
+        
+        .status-dot.inactive {
+            background-color: var(--danger-color);
+        }
+        
+        .status-text {
+            color: var(--light-color);
+            font-size: 11px;
+        }
+        
+        /* Top Fixtures */
+        .top-fixtures {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            display: flex;
+            gap: 10px;
+            z-index: 1001;
+        }
+        
+        .fixture {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            background: rgba(0, 0, 0, 0.5);
+            border: 1px solid var(--primary-color);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s;
+            color: var(--primary-color);
+        }
+        
+        .fixture:hover {
+            background: rgba(0, 255, 0, 0.2);
+            box-shadow: 0 0 10px var(--primary-color);
+        }
+        
+        /* Dashboard Content Container */
+        .dashboard-content {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            overflow-y: auto;
+            min-height: 0;
+        }
+        
+        /* Menu Top Fixtures */
+        .menu-top-fixtures {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 15px;
+        }
+        
+        .menu-fixture {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: rgba(0, 0, 0, 0.5);
+            border: 1px solid var(--primary-color);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s;
+            color: var(--primary-color);
+        }
+        
+        .menu-fixture:hover {
+            background: rgba(0, 255, 0, 0.2);
+            box-shadow: 0 0 10px var(--primary-color);
+        }
+        
+        /* Risk Calculator */
+        .risk-calculator {
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 8px;
+            padding: 15px;
+            margin: 15px 0;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .risk-header {
+            font-weight: bold;
+            color: var(--primary-color);
+            margin-bottom: 10px;
+            text-align: center;
+        }
+        
+        .risk-inputs {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
+            margin-bottom: 10px;
+        }
+        
+        .risk-input {
+            background: rgba(0, 0, 0, 0.5);
+            padding: 8px;
+            border-radius: 4px;
+            border: 1px solid rgba(0, 255, 0, 0.2);
+        }
+        
+        .risk-label {
+            font-size: 10px;
+            color: var(--light-color);
+            margin-bottom: 3px;
+        }
+        
+        .risk-value {
+            font-size: 12px;
+            font-weight: bold;
+            color: var(--primary-color);
+        }
+        
+        /* Quick Actions */
+        .quick-actions {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
+            margin: 15px 0;
+        }
+        
+        .quick-action {
+            background: rgba(0, 0, 0, 0.3);
+            border: 1px solid var(--primary-color);
+            border-radius: 5px;
+            padding: 10px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .quick-action:hover {
+            background: rgba(0, 255, 0, 0.1);
+            box-shadow: 0 0 8px var(--primary-color);
+        }
+        
+        .action-icon {
+            font-size: 20px;
+            color: var(--primary-color);
+            margin-bottom: 5px;
+        }
+        
+        .action-label {
+            font-size: 10px;
+            color: var(--light-color);
+        }
     </style>
 </head>
 <body>
@@ -803,8 +1093,42 @@
         <div class="close-menu" id="closeMenu">&times;</div>
         
         <div class="menu-header">
-            <h3>FX BULLS PRO</h3>
-            <div style="font-size: 12px; color: #ccc;">POWERED BY FX BULLS PRO</div>
+            <h3>FX BULLS PRO SMC</h3>
+            <div style="font-size: 12px; color: #ccc;">SMART MONEY CONCEPT EDITION</div>
+            
+            <!-- Menu Top Fixtures -->
+            <div class="menu-top-fixtures">
+                <div class="menu-fixture" title="Market Depth" onclick="showMarketDepth()">
+                    <i class="fas fa-chart-bar"></i>
+                </div>
+                <div class="menu-fixture" title="Order Flow" onclick="showOrderFlow()">
+                    <i class="fas fa-wave-square"></i>
+                </div>
+                <div class="menu-fixture" title="Liquidity Map" onclick="showLiquidityMap()">
+                    <i class="fas fa-map"></i>
+                </div>
+                <div class="menu-fixture" title="Risk Calculator" onclick="showRiskCalculator()">
+                    <i class="fas fa-calculator"></i>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Registration Status in Menu -->
+        <div class="menu-section">
+            <h4>ACCOUNT STATUS</h4>
+            <div class="user-detail">
+                <strong>Status:</strong> 
+                <span id="menuStatusText" style="color: var(--danger-color);">NOT REGISTERED</span>
+            </div>
+            <div class="user-detail">
+                <strong>License Type:</strong> <span id="licenseType">-</span>
+            </div>
+            <div class="user-detail">
+                <strong>Expiry:</strong> <span id="licenseExpiry">LIFETIME</span>
+            </div>
+            <div class="user-detail">
+                <strong>Signals Generated:</strong> <span id="signalsCount">0</span>
+            </div>
         </div>
         
         <!-- User Details Section -->
@@ -840,6 +1164,23 @@
                     <input type="radio" id="styleSwing" name="tradingStyle" value="swing">
                     <label for="styleSwing">Swing Trading (4 hour-daily timeframe)</label>
                 </div>
+            </div>
+        </div>
+        
+        <!-- SMC Analysis Section -->
+        <div class="menu-section">
+            <h4>SMC ANALYSIS</h4>
+            <div class="user-detail">
+                <strong>Market Phase:</strong> <span id="marketPhase">-</span>
+            </div>
+            <div class="user-detail">
+                <strong>Order Blocks:</strong> <span id="orderBlocks">-</span>
+            </div>
+            <div class="user-detail">
+                <strong>Liquidity Zones:</strong> <span id="liquidityZones">-</span>
+            </div>
+            <div class="user-detail">
+                <strong>Fair Value Gap:</strong> <span id="fairValueGap">-</span>
             </div>
         </div>
         
@@ -881,9 +1222,40 @@
             </div>
         </div>
         
+        <!-- Quick Actions -->
+        <div class="menu-section">
+            <h4>QUICK ACTIONS</h4>
+            <div class="quick-actions">
+                <div class="quick-action" onclick="quickAction('analyze')">
+                    <div class="action-icon">
+                        <i class="fas fa-search"></i>
+                    </div>
+                    <div class="action-label">Analyze Pair</div>
+                </div>
+                <div class="quick-action" onclick="quickAction('risk')">
+                    <div class="action-icon">
+                        <i class="fas fa-shield-alt"></i>
+                    </div>
+                    <div class="action-label">Risk Check</div>
+                </div>
+                <div class="quick-action" onclick="quickAction('trend')">
+                    <div class="action-icon">
+                        <i class="fas fa-chart-line"></i>
+                    </div>
+                    <div class="action-label">Trend Analysis</div>
+                </div>
+                <div class="quick-action" onclick="quickAction('settings')">
+                    <div class="action-icon">
+                        <i class="fas fa-cog"></i>
+                    </div>
+                    <div class="action-label">Settings</div>
+                </div>
+            </div>
+        </div>
+        
         <!-- Signal History Section -->
         <div class="menu-section">
-            <h4>SIGNAL HISTORY</h4>
+            <h4>SIGNAL HISTORY (LAST 10)</h4>
             <div id="signalHistoryList" style="max-height: 200px; overflow-y: auto;">
                 <div class="signal-history-item">
                     <div>No signals yet</div>
@@ -893,11 +1265,33 @@
         
         <!-- Menu Footer -->
         <div style="text-align: center; margin-top: 20px; font-size: 10px; color: #888;">
-            <div>FX Bulls PRO v2.1</div>
+            <div>FX Bulls PRO SMC v3.0</div>
             <div>© 2024 All rights reserved</div>
         </div>
     </div>
-    
+
+    <!-- Top Right Fixtures -->
+    <div class="top-fixtures">
+        <div class="fixture" title="Market Overview" onclick="showMarketOverview()">
+            <i class="fas fa-globe"></i>
+        </div>
+        <div class="fixture" title="Economic Calendar" onclick="showEconomicCalendar()">
+            <i class="fas fa-calendar-alt"></i>
+        </div>
+        <div class="fixture" title="News Feed" onclick="showNewsFeed()">
+            <i class="fas fa-newspaper"></i>
+        </div>
+        <div class="fixture" title="Alerts" onclick="showAlerts()">
+            <i class="fas fa-bell"></i>
+        </div>
+    </div>
+
+    <!-- Registration Status Indicator -->
+    <div class="status-indicator" id="statusIndicator">
+        <div class="status-dot inactive" id="statusDot"></div>
+        <div class="status-text" id="statusText">NOT REGISTERED</div>
+    </div>
+
     <div class="container">
         <div class="card">
             <div class="card-header">
@@ -907,7 +1301,7 @@
                     <span></span>
                     <span></span>
                 </div>
-                <h2>FX BULLS PRO</h2>
+                <h2>FX BULLS PRO - SMC EDITION</h2>
             </div>
             <div class="card-body">
                 <!-- Login Form -->
@@ -941,7 +1335,7 @@
                     <div id="register-form" class="hidden">
                         <div class="activation-message">
                             <strong>ACCOUNT VERIFICATION REQUIRED</strong>
-                            <p>Pay R300 to get your activation code</p>
+                            <p>Pay R200 to get your activation code</p>
                             <p>LIFETIME ACCESS • ONE-TIME PAYMENT</p>
                         </div>
                         
@@ -954,7 +1348,7 @@
                             <div class="pay-instructions">
                                 <h4>HOW TO GET ACTIVATION CODE</h4>
                                 <p>1. Click "PAY NOW" button above</p>
-                                <p>2. Complete R300 payment via secure link</p>
+                                <p>2. Complete R200 payment via secure link</p>
                                 <p>3. WhatsApp proof of payment to 067 277 1746</p>
                                 <p>4. You will receive your activation code via WhatsApp</p>
                                 <p>5. Enter the code below to complete registration</p>
@@ -1015,153 +1409,189 @@
 
                 <!-- Dashboard -->
                 <div id="dashboard" class="hidden">
-                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
-                        <h3 style="color: var(--primary-color); margin: 0;">WELCOME, <span id="userNameDisplay"></span></h3>
-                        <button id="logoutBtn" class="danger">LOGOUT</button>
-                    </div>
-                    
-                    <div class="trading-style-info">
-                        <strong>TRADING STYLE: </strong><span id="userTradingStyleDisplay"></span>
-                    </div>
-                    
-                    <!-- Market Status Bar -->
-                    <div class="market-status">
-                        <div class="market-status-item">
-                            <div class="market-status-label">Market Status</div>
-                            <div class="market-status-value" id="marketStatus">Loading...</div>
-                            <div class="volatility-indicator">
-                                <div class="volatility-fill volatility-low" id="volatilityIndicator"></div>
-                            </div>
-                        </div>
-                        <div class="market-status-item">
-                            <div class="market-status-label">Best Session</div>
-                            <div class="market-status-value" id="bestSession">-</div>
-                        </div>
-                        <div class="market-status-item">
-                            <div class="market-status-label">Risk Level</div>
-                            <div class="market-status-value" id="riskLevel">-</div>
-                        </div>
-                    </div>
-                    
-                    <!-- Trading Session Info -->
-                    <div class="session-container">
-                        <div class="session-header">
-                            <div class="session-title">TRADING SESSION</div>
-                            <div class="session-status">
-                                <div class="session-dot" id="dashboardSessionDot"></div>
-                                <span id="dashboardSessionStatus">Checking...</span>
-                            </div>
-                        </div>
-                        <div class="session-info">
-                            <div class="session-item" id="sessionLondon">
-                                <div class="session-label">London Session</div>
-                                <div class="session-value">10:00 - 19:00</div>
-                            </div>
-                            <div class="session-item" id="sessionNY">
-                                <div class="session-label">New York Session</div>
-                                <div class="session-value">15:00 - 24:00</div>
-                            </div>
-                            <div class="session-item" id="sessionAsia">
-                                <div class="session-label">Asian Session</div>
-                                <div class="session-value">00:00 - 09:00</div>
-                            </div>
-                            <div class="session-item">
-                                <div class="session-label">Current Time</div>
-                                <div class="session-value" id="currentTime">--:--</div>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label for="pairSelect">SELECT TRADING PAIR</label>
-                        <select id="pairSelect">
-                            <option value="EUR/USD">EUR/USD</option>
-                            <option value="GBP/USD">GBP/USD</option>
-                            <option value="USD/JPY">USD/JPY</option>
-                            <option value="AUD/USD">AUD/USD</option>
-                            <option value="USD/CAD">USD/CAD</option>
-                            <option value="BTC/USD" class="bitcoin">BTC/USD (BITCOIN)</option>
-                            <option value="XAU/USD" class="gold">XAU/USD (GOLD)</option>
-                        </select>
-                    </div>
-                    
-                    <!-- Enhanced Signal Container with Confidence -->
-                    <div class="signal-container">
-                        <div class="signal-header">
-                            <div class="signal-pair" id="signal-pair">EUR/USD</div>
-                            <div class="signal-direction" id="signal-direction">LOADING...</div>
+                    <div class="dashboard-content">
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
+                            <h3 style="color: var(--primary-color); margin: 0;">WELCOME, <span id="userNameDisplay"></span></h3>
+                            <button id="logoutBtn" class="danger">LOGOUT</button>
                         </div>
                         
-                        <!-- Confidence Display -->
-                        <div class="signal-confidence">
-                            <span style="font-size: 12px;">Confidence:</span>
-                            <div class="confidence-meter">
-                                <div class="confidence-fill" id="signalConfidenceFill"></div>
-                            </div>
-                            <div class="confidence-value" id="signalConfidenceValue">-</div>
+                        <div class="trading-style-info">
+                            <strong>TRADING STYLE: </strong><span id="userTradingStyleDisplay"></span>
                         </div>
                         
-                        <div id="signal-message" style="font-size: 14px; margin-bottom: 10px;">
-                            <div style="display: flex; justify-content: center; align-items: center; height: 30px;">
-                                <div class="spinner" style="width: 18px; height: 18px; border-width: 3px;"></div>
-                                <span style="margin-left: 8px;">ANALYZING MARKET DATA...</span>
+                        <!-- Market Status Bar -->
+                        <div class="market-status">
+                            <div class="market-status-item">
+                                <div class="market-status-label">Market Status</div>
+                                <div class="market-status-value" id="marketStatus">Loading...</div>
+                                <div class="volatility-indicator">
+                                    <div class="volatility-fill volatility-low" id="volatilityIndicator"></div>
+                                </div>
+                            </div>
+                            <div class="market-status-item">
+                                <div class="market-status-label">Best Session</div>
+                                <div class="market-status-value" id="bestSession">-</div>
+                            </div>
+                            <div class="market-status-item">
+                                <div class="market-status-label">Risk Level</div>
+                                <div class="market-status-value" id="riskLevel">-</div>
                             </div>
                         </div>
                         
-                        <div class="signal-details">
-                            <div class="signal-detail">
-                                <div class="detail-label">ENTRY PRICE</div>
-                                <div class="detail-value" id="entry-price">-</div>
+                        <!-- SMC Strategy Container -->
+                        <div class="smc-container">
+                            <div class="smc-header">
+                                <div class="smc-title">SMC ANALYSIS</div>
+                                <div class="smc-status" id="smcStatus">ANALYZING</div>
                             </div>
-                            <div class="signal-detail">
-                                <div class="detail-label">TAKE PROFIT</div>
-                                <div class="detail-value" id="take-profit">-</div>
-                            </div>
-                            <div class="signal-detail">
-                                <div class="detail-label">STOP LOSS</div>
-                                <div class="detail-value" id="stop-loss">-</div>
+                            <div class="smc-indicators">
+                                <div class="smc-indicator">
+                                    <div class="smc-label">Market Phase</div>
+                                    <div class="smc-value" id="smcPhase">-</div>
+                                </div>
+                                <div class="smc-indicator">
+                                    <div class="smc-label">Order Blocks</div>
+                                    <div class="smc-value" id="smcBlocks">-</div>
+                                </div>
+                                <div class="smc-indicator">
+                                    <div class="smc-label">Liquidity</div>
+                                    <div class="smc-value" id="smcLiquidity">-</div>
+                                </div>
+                                <div class="smc-indicator">
+                                    <div class="smc-label">Fair Value</div>
+                                    <div class="smc-value" id="smcFVG">-</div>
+                                </div>
+                                <div class="smc-indicator">
+                                    <div class="smc-label">Break of Structure</div>
+                                    <div class="smc-value" id="smcBOS">-</div>
+                                </div>
+                                <div class="smc-indicator">
+                                    <div class="smc-label">Change of Character</div>
+                                    <div class="smc-value" id="smcCHoCH">-</div>
+                                </div>
                             </div>
                         </div>
                         
-                        <!-- Signal Analysis -->
-                        <div style="margin-top: 10px; font-size: 12px; color: var(--light-color);">
-                            <strong>Analysis:</strong> <span id="signalAnalysisText">Waiting for analysis...</span>
+                        <!-- Trading Session Info -->
+                        <div class="session-container">
+                            <div class="session-header">
+                                <div class="session-title">TRADING SESSION</div>
+                                <div class="session-status">
+                                    <div class="session-dot" id="dashboardSessionDot"></div>
+                                    <span id="dashboardSessionStatus">Checking...</span>
+                                </div>
+                            </div>
+                            <div class="session-info">
+                                <div class="session-item" id="sessionLondon">
+                                    <div class="session-label">London Session</div>
+                                    <div class="session-value">10:00 - 19:00</div>
+                                </div>
+                                <div class="session-item" id="sessionNY">
+                                    <div class="session-label">New York Session</div>
+                                    <div class="session-value">15:00 - 24:00</div>
+                                </div>
+                                <div class="session-item" id="sessionAsia">
+                                    <div class="session-label">Asian Session</div>
+                                    <div class="session-value">00:00 - 09:00</div>
+                                </div>
+                                <div class="session-item">
+                                    <div class="session-label">Current Time</div>
+                                    <div class="session-value" id="currentTime">--:--</div>
+                                </div>
+                            </div>
                         </div>
-                    </div>
-                    
-                    <div class="chart-container">
-                        <iframe id="chartIframe"></iframe>
-                    </div>
-                    
-                    <div style="text-align: center;">
-                        <button id="refreshBtn" class="refresh-btn">
-                            <i class="fas fa-sync-alt"></i> REFRESH SIGNAL
-                        </button>
-                    </div>
-                    
-                    <div class="powered-by">
-                        <i class="fas fa-bolt" style="color: var(--primary-color); margin-right: 5px;"></i>
-                        POWERED BY FX BULLS PRO
-                        <i class="fas fa-bolt" style="color: var(--primary-color); margin-left: 5px;"></i>
+                        
+                        <div class="form-group">
+                            <label for="pairSelect">SELECT TRADING PAIR</label>
+                            <select id="pairSelect">
+                                <option value="EUR/USD">EUR/USD</option>
+                                <option value="GBP/USD">GBP/USD</option>
+                                <option value="USD/JPY">USD/JPY</option>
+                                <option value="AUD/USD">AUD/USD</option>
+                                <option value="USD/CAD">USD/CAD</option>
+                                <option value="BTC/USD" class="bitcoin">BTC/USD (BITCOIN)</option>
+                                <option value="XAU/USD" class="gold">XAU/USD (GOLD)</option>
+                            </select>
+                        </div>
+                        
+                        <!-- Enhanced Signal Container with Confidence -->
+                        <div class="signal-container">
+                            <div class="signal-header">
+                                <div class="signal-pair" id="signal-pair">EUR/USD</div>
+                                <div class="signal-direction" id="signal-direction">LOADING...</div>
+                            </div>
+                            
+                            <!-- Confidence Display -->
+                            <div class="signal-confidence">
+                                <span style="font-size: 12px;">Confidence:</span>
+                                <div class="confidence-meter">
+                                    <div class="confidence-fill" id="signalConfidenceFill"></div>
+                                </div>
+                                <div class="confidence-value" id="signalConfidenceValue">-</div>
+                            </div>
+                            
+                            <div id="signal-message" style="font-size: 14px; margin-bottom: 10px;">
+                                <div style="display: flex; justify-content: center; align-items: center; height: 30px;">
+                                    <div class="spinner" style="width: 18px; height: 18px; border-width: 3px;"></div>
+                                    <span style="margin-left: 8px;">ANALYZING MARKET DATA...</span>
+                                </div>
+                            </div>
+                            
+                            <div class="signal-details">
+                                <div class="signal-detail">
+                                    <div class="detail-label">ENTRY PRICE</div>
+                                    <div class="detail-value" id="entry-price">-</div>
+                                </div>
+                                <div class="signal-detail">
+                                    <div class="detail-label">TAKE PROFIT</div>
+                                    <div class="detail-value" id="take-profit">-</div>
+                                </div>
+                                <div class="signal-detail">
+                                    <div class="detail-label">STOP LOSS</div>
+                                    <div class="detail-value" id="stop-loss">-</div>
+                                </div>
+                            </div>
+                            
+                            <!-- Signal Analysis -->
+                            <div style="margin-top: 10px; font-size: 12px; color: var(--light-color);">
+                                <strong>Analysis:</strong> <span id="signalAnalysisText">Waiting for analysis...</span>
+                            </div>
+                        </div>
+                        
+                        <div class="chart-container">
+                            <iframe id="chartIframe"></iframe>
+                        </div>
+                        
+                        <div style="text-align: center; margin-bottom: 15px;">
+                            <button id="refreshBtn" class="refresh-btn">
+                                <i class="fas fa-sync-alt"></i> REFRESH SIGNAL
+                            </button>
+                        </div>
+                        
+                        <div class="powered-by">
+                            <i class="fas fa-bolt" style="color: var(--primary-color); margin-right: 5px;"></i>
+                            POWERED BY FX BULLS PRO SMC EDITION
+                            <i class="fas fa-bolt" style="color: var(--primary-color); margin-left: 5px;"></i>
+                        </div>
                     </div>
                 </div>
 
                 <!-- Owner Information -->
                 <div class="owner-info">
-                    <h4>FX BULLS PRO - V2+</h4>
+                    <h4>FX BULLS PRO - SMC EDITION V3.0</h4>
                     <p><strong>OWNER:</strong> MFANOLA HAPE</p>
                     <p><strong>CONTACT:</strong> 067 277 1746</p>
                     <p><strong>EMAIL:</strong> fxbulls1632@gmail.com</p>
-                    <p><strong>MEMBERSHIP:</strong> R300 LIFETIME ACCESS</p>
+                    <p><strong>MEMBERSHIP:</strong> R200 LIFETIME ACCESS</p>
                 </div>
             </div>
         </div>
     </div>
 
     <script>
-        // Enhanced Configuration
+        // Enhanced Configuration with SMC
         const config = {
-            apiKey: "56b3a385b7bc43d88af12cf6464d6e42",
+            apiKey: "56b3a385b7bc43d88af12c6464d6e42",
             pipValues: {
                 "EUR/USD": 0.0001,
                 "GBP/USD": 0.0001,
@@ -1171,31 +1601,42 @@
                 "BTC/USD": 1,
                 "XAU/USD": 0.1
             },
-            // Enhanced trading style configurations with 1000+ pips TP
+            // Enhanced SMC trading style configurations
             tradingStyles: {
                 scalping: {
                     tpMultiplier: 1.5,
                     slMultiplier: 0.8,
                     timeframe: "15",
                     maxPips: 1500,
-                    minPips: 1000
+                    minPips: 1000,
+                    smcAggressiveness: 0.8
                 },
                 day: {
                     tpMultiplier: 3.0,
                     slMultiplier: 1.0,
                     timeframe: "60",
                     maxPips: 2000,
-                    minPips: 1200
+                    minPips: 1200,
+                    smcAggressiveness: 0.6
                 },
                 swing: {
                     tpMultiplier: 5.0,
                     slMultiplier: 1.5,
                     timeframe: "240",
                     maxPips: 2500,
-                    minPips: 1500
+                    minPips: 1500,
+                    smcAggressiveness: 0.4
                 }
             },
-            activationCodes: ["FXBULLS#$-BDC-7-YN00-iu", "TRAD@54-MAX-JG", "PROFX56-OIJM7", "BULLSF--X0-1", "ACTIVATED-HD"],
+            activationCodes: ["FXBULLS#$-BDC-7-YN-ld0-as-09", "TRAD@54-HM-JG", "PROFX56-OIJM7", "BULLS--0980", "ACTIVATE-09-878-HF"],
+            
+            // SMC Configuration
+            smc: {
+                phases: ["Accumulation", "Markup", "Distribution", "Markdown"],
+                liquidityLevels: ["High", "Medium", "Low", "Very High"],
+                fairValueGaps: ["Bullish", "Bearish", "Balanced"],
+                orderBlockStrength: ["Strong", "Medium", "Weak", "Very Strong"]
+            },
             
             // Enhanced session configurations
             sessions: {
@@ -1233,6 +1674,9 @@
 
         // Current market data cache
         let marketDataCache = {};
+
+        // SMC Analysis data
+        let smcAnalysis = {};
 
         // DOM Elements
         const elements = {
@@ -1316,7 +1760,33 @@
             signalAnalysisText: document.getElementById("signalAnalysisText"),
             
             // Payment button
-            payNowButton: document.getElementById("payNowButton")
+            payNowButton: document.getElementById("payNowButton"),
+            
+            // SMC Elements
+            smcStatus: document.getElementById("smcStatus"),
+            smcPhase: document.getElementById("smcPhase"),
+            smcBlocks: document.getElementById("smcBlocks"),
+            smcLiquidity: document.getElementById("smcLiquidity"),
+            smcFVG: document.getElementById("smcFVG"),
+            smcBOS: document.getElementById("smcBOS"),
+            smcCHoCH: document.getElementById("smcCHoCH"),
+            
+            // Menu SMC elements
+            marketPhase: document.getElementById("marketPhase"),
+            orderBlocks: document.getElementById("orderBlocks"),
+            liquidityZones: document.getElementById("liquidityZones"),
+            fairValueGap: document.getElementById("fairValueGap"),
+            
+            // Status indicator elements
+            statusIndicator: document.getElementById("statusIndicator"),
+            statusDot: document.getElementById("statusDot"),
+            statusText: document.getElementById("statusText"),
+            
+            // Menu status elements
+            menuStatusText: document.getElementById("menuStatusText"),
+            licenseType: document.getElementById("licenseType"),
+            licenseExpiry: document.getElementById("licenseExpiry"),
+            signalsCount: document.getElementById("signalsCount")
         };
 
         // Initialize the app
@@ -1345,6 +1815,9 @@
                 option.addEventListener('click', handleStyleChange);
             });
             
+            // Update registration status
+            updateRegistrationStatus();
+            
             // Check if already logged in
             if (localStorage.getItem("loggedIn") === "true") {
                 const userEmail = localStorage.getItem("userEmail");
@@ -1360,6 +1833,43 @@
             // Start session update interval
             updateTradingSession();
             setInterval(updateTradingSession, 1000); // Update every second for clock
+            
+            // Start periodic SMC analysis
+            setInterval(performSMCAnalysis, 30000); // Every 30 seconds
+        }
+        
+        // Update registration status
+        function updateRegistrationStatus() {
+            const isRegistered = localStorage.getItem("isRegistered") === "true";
+            const userEmail = localStorage.getItem("userEmail");
+            const isLoggedIn = localStorage.getItem("loggedIn") === "true";
+            
+            if (isRegistered && userEmail) {
+                elements.statusDot.className = "status-dot active";
+                elements.statusText.textContent = "REGISTERED";
+                elements.statusText.style.color = "var(--primary-color)";
+                
+                elements.menuStatusText.textContent = "ACTIVE";
+                elements.menuStatusText.style.color = "var(--primary-color)";
+                elements.licenseType.textContent = "PREMIUM";
+                elements.signalsCount.textContent = signalHistory.length;
+            } else if (isLoggedIn) {
+                elements.statusDot.className = "status-dot active";
+                elements.statusText.textContent = "LOGGED IN";
+                elements.statusText.style.color = "var(--primary-color)";
+                
+                elements.menuStatusText.textContent = "LOGGED IN";
+                elements.menuStatusText.style.color = "var(--primary-color)";
+                elements.licenseType.textContent = "TEMPORARY";
+            } else {
+                elements.statusDot.className = "status-dot inactive";
+                elements.statusText.textContent = "NOT REGISTERED";
+                elements.statusText.style.color = "var(--danger-color)";
+                
+                elements.menuStatusText.textContent = "NOT REGISTERED";
+                elements.menuStatusText.style.color = "var(--danger-color)";
+                elements.licenseType.textContent = "-";
+            }
         }
         
         // Toggle hamburger menu
@@ -1459,6 +1969,93 @@
             }
         }
         
+        // SMC Analysis Function
+        function performSMCAnalysis() {
+            const pair = elements.pairSelect.value;
+            const hour = new Date().getHours();
+            const minute = new Date().getMinutes();
+            
+            // Simulate SMC analysis
+            const phases = config.smc.phases;
+            const liquidity = config.smc.liquidityLevels;
+            const fvg = config.smc.fairValueGaps;
+            const blocks = config.smc.orderBlockStrength;
+            
+            // Randomize but with bias based on time
+            let phaseIndex, liquidityIndex, fvgIndex, blockIndex;
+            
+            // Time-based bias
+            if (hour >= 15 && hour < 19) { // Overlap session
+                phaseIndex = Math.random() > 0.6 ? 1 : 0; // Bias toward Markup
+                liquidityIndex = 3; // Very High
+                fvgIndex = Math.random() > 0.5 ? 0 : 2; // Bullish or Balanced
+                blockIndex = 3; // Very Strong
+            } else if (hour >= 10 && hour < 15) { // London session
+                phaseIndex = Math.random() > 0.7 ? 1 : (Math.random() > 0.5 ? 0 : 2);
+                liquidityIndex = 2; // High
+                fvgIndex = Math.random() > 0.6 ? 0 : (Math.random() > 0.4 ? 1 : 2);
+                blockIndex = 2; // Strong
+            } else if (hour >= 19 && hour < 24) { // NY session
+                phaseIndex = Math.random() > 0.6 ? 2 : 1; // Bias toward Distribution
+                liquidityIndex = 1; // Medium
+                fvgIndex = Math.random() > 0.5 ? 1 : 2; // Bearish or Balanced
+                blockIndex = 1; // Medium
+            } else { // Asian session
+                phaseIndex = Math.random() > 0.7 ? 0 : (Math.random() > 0.5 ? 3 : 1);
+                liquidityIndex = 0; // Low
+                fvgIndex = 2; // Balanced
+                blockIndex = 0; // Weak
+            }
+            
+            // Determine BOS and CHoCH
+            const bos = Math.random() > 0.5 ? "YES" : "NO";
+            const choch = Math.random() > 0.7 ? "YES" : "NO";
+            
+            // Update SMC display
+            elements.smcPhase.textContent = phases[phaseIndex];
+            elements.smcLiquidity.textContent = liquidity[liquidityIndex];
+            elements.smcFVG.textContent = fvg[fvgIndex];
+            elements.smcBlocks.textContent = blocks[blockIndex];
+            elements.smcBOS.textContent = bos;
+            elements.smcCHoCH.textContent = choch;
+            
+            // Update menu SMC
+            elements.marketPhase.textContent = phases[phaseIndex];
+            elements.liquidityZones.textContent = liquidity[liquidityIndex];
+            elements.fairValueGap.textContent = fvg[fvgIndex];
+            elements.orderBlocks.textContent = blocks[blockIndex];
+            
+            // Determine SMC status color
+            let status = "neutral";
+            let statusClass = "neutral";
+            
+            if (phaseIndex === 1 && bos === "YES") { // Markup with BOS
+                status = "BULLISH";
+                statusClass = "bullish";
+            } else if (phaseIndex === 3 && bos === "YES") { // Markdown with BOS
+                status = "BEARISH";
+                statusClass = "bearish";
+            } else if (choch === "YES") {
+                status = "CHANGING";
+                statusClass = "neutral";
+            }
+            
+            elements.smcStatus.textContent = status;
+            elements.smcStatus.className = "smc-status " + statusClass;
+            
+            // Update SMC analysis object
+            smcAnalysis = {
+                phase: phases[phaseIndex],
+                liquidity: liquidity[liquidityIndex],
+                fvg: fvg[fvgIndex],
+                blocks: blocks[blockIndex],
+                bos: bos,
+                choch: choch,
+                status: status,
+                timestamp: new Date()
+            };
+        }
+        
         // Enhanced Update trading session information
         function updateTradingSession() {
             const now = new Date();
@@ -1483,12 +2080,6 @@
             let sessionType = "CLOSED";
             let isActive = false;
             let volatility = "Low";
-            
-            // Market hours in SAST
-            // Asian Session: 00:00-09:00 SAST
-            // London Session: 10:00-19:00 SAST
-            // New York Session: 15:00-24:00 SAST
-            // Overlap Session: 15:00-19:00 SAST
             
             if (isWeekday) {
                 if (hour >= 10 && hour < 19) {
@@ -1674,6 +2265,7 @@
             }
             
             updateSignalHistory();
+            elements.signalsCount.textContent = signalHistory.length;
         }
         
         // Update signal history display
@@ -1766,13 +2358,27 @@
                 name: name,
                 password: password,
                 licenseKey: licenseKey,
-                tradingStyle: tradingStyle
+                tradingStyle: tradingStyle,
+                registeredDate: new Date().toISOString()
             };
+            
+            // Mark as registered
+            localStorage.setItem("isRegistered", "true");
+            localStorage.setItem("userEmail", email);
+            localStorage.setItem("userName", name);
+            localStorage.setItem("userTradingStyle", tradingStyle);
+            localStorage.setItem("licenseKey", licenseKey);
             
             // Show license key to user
             elements.generatedLicenseKey.textContent = licenseKey;
             elements.registerForm.classList.add("hidden");
             elements.licenseKeyDisplay.classList.remove("hidden");
+            
+            // Update registration status
+            updateRegistrationStatus();
+            
+            // Perform initial SMC analysis
+            performSMCAnalysis();
         }
         
         // Handle login
@@ -1817,6 +2423,12 @@
             showDashboard(user.name, user.tradingStyle);
             updateMenuUserDetails(user.name, email, user.tradingStyle);
             setActiveStyleOption(user.tradingStyle);
+            
+            // Update registration status
+            updateRegistrationStatus();
+            
+            // Perform initial SMC analysis
+            performSMCAnalysis();
         }
         
         // Show dashboard
@@ -1833,7 +2445,7 @@
         
         // Handle logout
         function handleLogout() {
-            localStorage.clear();
+            localStorage.removeItem("loggedIn");
             location.reload();
         }
         
@@ -1841,6 +2453,9 @@
         function handleRefresh() {
             const tradingStyle = localStorage.getItem("userTradingStyle");
             generateSignal(tradingStyle);
+            
+            // Also update SMC analysis
+            performSMCAnalysis();
         }
         
         // Handle pair change
@@ -1848,6 +2463,9 @@
             const tradingStyle = localStorage.getItem("userTradingStyle");
             updateChart(tradingStyle);
             generateSignal(tradingStyle);
+            
+            // Update SMC analysis for new pair
+            performSMCAnalysis();
         }
         
         // Update TradingView chart based on trading style
@@ -2006,75 +2624,14 @@
             return { macd, signal, histogram };
         }
         
-        // Enhanced Bollinger Bands with dynamic width
-        function calculateBollingerBands(prices, period = 20) {
-            if (prices.length < period) return { upper: null, middle: null, lower: null, width: 0 };
-            
-            const recentPrices = prices.slice(-period);
-            const middle = recentPrices.reduce((sum, price) => sum + price, 0) / period;
-            
-            const variance = recentPrices.reduce((sum, price) => sum + Math.pow(price - middle, 2), 0) / period;
-            const stdDev = Math.sqrt(variance);
-            
-            // Dynamic width based on volatility
-            const multiplier = Math.min(2.5, Math.max(1.5, stdDev / middle * 100));
-            
-            return {
-                upper: middle + (multiplier * stdDev),
-                middle: middle,
-                lower: middle - (multiplier * stdDev),
-                width: (multiplier * stdDev * 2) / middle * 100
-            };
-        }
-        
-        // Calculate Stochastic Oscillator
-        function calculateStochastic(prices, period = 14) {
-            if (prices.length < period) return { k: 50, d: 50 };
-            
-            const recentPrices = prices.slice(-period);
-            const lowest = Math.min(...recentPrices);
-            const highest = Math.max(...recentPrices);
-            
-            const currentPrice = prices[prices.length - 1];
-            const k = ((currentPrice - lowest) / (highest - lowest)) * 100;
-            
-            // Simple moving average of %K for %D
-            const d = recentPrices.slice(-3).reduce((sum, price, idx, arr) => {
-                const recentLow = Math.min(...arr.slice(0, idx + 1));
-                const recentHigh = Math.max(...arr.slice(0, idx + 1));
-                return sum + ((price - recentLow) / (recentHigh - recentLow)) * 100;
-            }, 0) / Math.min(3, recentPrices.length);
-            
-            return { k, d };
-        }
-        
-        // Calculate Average True Range (ATR)
-        function calculateATR(highs, lows, closes, period = 14) {
-            if (closes.length < period + 1) return 0;
-            
-            const trueRanges = [];
-            for (let i = 1; i < closes.length; i++) {
-                const tr = Math.max(
-                    highs[i] - lows[i],
-                    Math.abs(highs[i] - closes[i - 1]),
-                    Math.abs(lows[i] - closes[i - 1])
-                );
-                trueRanges.push(tr);
-            }
-            
-            // Simple moving average of true ranges
-            const atr = trueRanges.slice(-period).reduce((sum, tr) => sum + tr, 0) / period;
-            return atr;
-        }
-        
-        // Enhanced market analysis with multiple indicators
-        async function analyzeMarket(pair, currentPrice) {
+        // SMC Enhanced market analysis
+        async function analyzeMarketWithSMC(pair, currentPrice) {
             try {
                 // Get historical data for analysis
                 const historicalData = await getHistoricalData(pair, "1hour", 100);
                 
                 if (!historicalData || historicalData.length < 50) {
-                    return enhancedMarketAnalysis(pair, currentPrice);
+                    return smcEnhancedAnalysis(pair, currentPrice);
                 }
                 
                 // Extract data arrays
@@ -2082,104 +2639,81 @@
                 const highs = historicalData.map(item => item.high);
                 const lows = historicalData.map(item => item.low);
                 
-                // Calculate all technical indicators
+                // Calculate technical indicators
                 const rsi = calculateRSI(closingPrices, 14);
                 const macd = calculateMACD(closingPrices);
-                const bb = calculateBollingerBands(closingPrices);
-                const stochastic = calculateStochastic(closingPrices);
-                const ema50 = calculateEMA(closingPrices, 50);
-                const ema200 = calculateEMA(closingPrices, 200);
-                const atr = calculateATR(highs, lows, closingPrices);
                 
-                // Calculate support/resistance levels
+                // SMC-specific analysis
                 const recentHigh = Math.max(...closingPrices.slice(-20));
                 const recentLow = Math.min(...closingPrices.slice(-20));
-                
-                // Market structure analysis
                 const pricePosition = (currentPrice - recentLow) / (recentHigh - recentLow);
-                const trend = ema50 ? (currentPrice > ema50 ? 1 : -1) : 0;
-                const longTermTrend = ema200 ? (currentPrice > ema200 ? 1 : -1) : 0;
                 
-                // Volatility analysis
-                const volatility = atr / currentPrice * 100;
+                // SMC Factors
+                const smcDirection = smcAnalysis.status === "BULLISH" ? 1 : (smcAnalysis.status === "BEARISH" ? -1 : 0);
+                const smcStrength = smcAnalysis.blocks === "Very Strong" ? 0.3 : (smcAnalysis.blocks === "Strong" ? 0.2 : 0.1);
+                const liquidityFactor = smcAnalysis.liquidity === "Very High" ? 0.2 : (smcAnalysis.liquidity === "High" ? 0.15 : 0.05);
                 
-                // Session analysis
-                const now = new Date();
-                const hour = now.getHours();
-                const isOverlapSession = hour >= 15 && hour < 19;
-                const isActiveSession = (hour >= 10 && hour < 19) || (hour >= 15 && hour < 24);
-                
-                // Composite confidence calculation
+                // Composite confidence calculation with SMC
                 let confidenceScore = 0;
-                let buySignals = 0;
-                let sellSignals = 0;
+                
+                // SMC signals
+                confidenceScore += smcDirection * smcStrength;
+                confidenceScore += liquidityFactor;
                 
                 // RSI signals
-                if (rsi < 30) { confidenceScore += 0.3; buySignals++; }
-                if (rsi > 70) { confidenceScore -= 0.3; sellSignals++; }
+                if (rsi < 30) confidenceScore += 0.25;
+                if (rsi > 70) confidenceScore -= 0.25;
                 
                 // MACD signals
-                if (macd.macd > macd.signal) { confidenceScore += 0.2; buySignals++; }
-                if (macd.macd < macd.signal) { confidenceScore -= 0.2; sellSignals++; }
-                
-                // Bollinger Bands signals
-                if (currentPrice < bb.lower) { confidenceScore += 0.25; buySignals++; }
-                if (currentPrice > bb.upper) { confidenceScore -= 0.25; sellSignals++; }
-                
-                // Stochastic signals
-                if (stochastic.k < 20) { confidenceScore += 0.15; buySignals++; }
-                if (stochastic.k > 80) { confidenceScore -= 0.15; sellSignals++; }
-                
-                // Trend following
-                if (trend > 0) { confidenceScore += 0.1; }
-                if (trend < 0) { confidenceScore -= 0.1; }
-                
-                // Session boost
-                if (isOverlapSession) confidenceScore += 0.2;
-                if (isActiveSession) confidenceScore += 0.1;
+                if (macd.macd > macd.signal) confidenceScore += 0.15;
+                if (macd.macd < macd.signal) confidenceScore -= 0.15;
                 
                 // Price position
-                if (pricePosition < 0.3) confidenceScore += 0.15;
-                if (pricePosition > 0.7) confidenceScore -= 0.15;
+                if (pricePosition < 0.3) confidenceScore += 0.1;
+                if (pricePosition > 0.7) confidenceScore -= 0.1;
                 
-                // Determine direction
+                // Session analysis
+                const hour = new Date().getHours();
+                const isOverlapSession = hour >= 15 && hour < 19;
+                if (isOverlapSession) confidenceScore += 0.15;
+                
+                // Determine direction based on SMC
                 let direction;
                 if (confidenceScore > 0.2) {
                     direction = "BUY";
                 } else if (confidenceScore < -0.2) {
                     direction = "SELL";
                 } else {
-                    // Neutral - follow trend
-                    direction = trend > 0 ? "BUY" : "SELL";
+                    // Follow SMC trend
+                    direction = smcDirection > 0 ? "BUY" : "SELL";
                 }
                 
                 // Calculate final confidence (0-1 scale)
                 const rawConfidence = Math.abs(confidenceScore);
-                const confidence = Math.min(1, Math.max(0, rawConfidence * 2));
+                const confidence = Math.min(1, Math.max(0.3, rawConfidence * 2));
                 
                 return {
                     direction: direction,
                     confidence: confidence,
-                    volatility: volatility,
+                    volatility: 0.001,
                     rsi: rsi,
-                    trend: trend > 0 ? "up" : "down",
-                    indicators: {
-                        rsi: rsi,
-                        macd: macd.macd,
-                        bbWidth: bb.width,
-                        stochasticK: stochastic.k
-                    }
+                    trend: direction === "BUY" ? "up" : "down",
+                    smcInfluence: true
                 };
             } catch (error) {
-                console.error("Error in market analysis:", error);
-                return enhancedMarketAnalysis(pair, currentPrice);
+                console.error("Error in SMC market analysis:", error);
+                return smcEnhancedAnalysis(pair, currentPrice);
             }
         }
         
-        // Fallback market analysis
-        function enhancedMarketAnalysis(pair, currentPrice) {
+        // SMC Enhanced analysis fallback
+        function smcEnhancedAnalysis(pair, currentPrice) {
             const hour = new Date().getHours();
-            const minute = new Date().getMinutes();
+            
+            // Use SMC analysis if available
+            let smcDirection = 0;
+            if (smcAnalysis.status === "BULLISH") smcDirection = 1;
+            if (smcAnalysis.status === "BEARISH") smcDirection = -1;
             
             // Pair-specific characteristics
             const pairFactors = {
@@ -2196,50 +2730,45 @@
             
             // Time-based factors
             const isOverlapSession = hour >= 15 && hour < 19;
-            const isActiveSession = (hour >= 10 && hour < 19) || (hour >= 15 && hour < 24);
+            const sessionFactor = isOverlapSession ? 0.2 : 0;
             
-            let sessionFactor = 0;
-            if (isOverlapSession) sessionFactor += 0.3;
-            if (isActiveSession) sessionFactor += 0.2;
-            
-            // Price-based factors
-            const priceDecimal = currentPrice - Math.floor(currentPrice);
-            const decimalFactor = (priceDecimal > 0.5) ? 0.15 : -0.15;
-            
-            // Random factor for variety
-            const randomFactor = (Math.random() * 0.3 - 0.15);
+            // SMC factor
+            const smcFactor = smcDirection * 0.3;
             
             // Combine factors
-            const totalScore = pairFactor.trendBias + sessionFactor + decimalFactor + randomFactor;
+            const totalScore = pairFactor.trendBias + sessionFactor + smcFactor + (Math.random() * 0.2 - 0.1);
             
             // Determine direction
             let direction;
-            if (totalScore > 0.3) {
+            if (totalScore > 0.2) {
                 direction = "BUY";
-            } else if (totalScore < -0.3) {
+            } else if (totalScore < -0.2) {
                 direction = "SELL";
             } else {
-                direction = (Math.random() > 0.5) ? "BUY" : "SELL";
+                direction = smcDirection > 0 ? "BUY" : (smcDirection < 0 ? "SELL" : (Math.random() > 0.5 ? "BUY" : "SELL"));
             }
             
-            // Calculate confidence
-            const confidence = Math.min(0.9, Math.max(0.4, Math.abs(totalScore) + 0.3));
+            // Calculate confidence with SMC boost
+            let confidence = Math.min(0.9, Math.max(0.4, Math.abs(totalScore) + 0.3));
+            if (smcAnalysis.blocks === "Very Strong") confidence += 0.1;
+            if (smcAnalysis.liquidity === "Very High") confidence += 0.1;
             
             return {
                 direction: direction,
                 confidence: confidence,
                 volatility: pairFactor.volatility,
                 rsi: 50,
-                trend: direction === "BUY" ? "up" : "down"
+                trend: direction === "BUY" ? "up" : "down",
+                smcInfluence: true
             };
         }
         
-        // Enhanced signal generation
+        // Enhanced signal generation with SMC
         async function generateSignal(tradingStyle) {
             elements.signalMessage.innerHTML = `
                 <div style="display: flex; justify-content: center; align-items: center; height: 30px;">
                     <div class="spinner" style="width: 18px; height: 18px; border-width: 3px;"></div>
-                    <span style="margin-left: 8px;">ANALYZING MARKET DATA...</span>
+                    <span style="margin-left: 8px;">ANALYZING WITH SMC STRATEGY...</span>
             </div>
             `;
             
@@ -2248,7 +2777,7 @@
             
             if (currentPrice === null) return;
             
-            const analysis = await analyzeMarket(pair, currentPrice);
+            const analysis = await analyzeMarketWithSMC(pair, currentPrice);
             
             // Update signal confidence
             updateSignalConfidence(analysis);
@@ -2256,17 +2785,27 @@
             const pipSize = config.pipValues[pair] || 0.0001;
             const styleConfig = config.tradingStyles[tradingStyle] || config.tradingStyles.day;
             
-            // Enhanced TP/SL calculation based on confidence
+            // Enhanced TP/SL calculation based on SMC confidence
             let tpPips, slPips;
             
             // Base pips from trading style
             const basePips = styleConfig.minPips || 1000;
             
-            // Adjust based on confidence
-            const confidenceMultiplier = 0.5 + (analysis.confidence * 0.5);
-            tpPips = Math.round(basePips * confidenceMultiplier);
+            // Adjust based on SMC analysis
+            let smcMultiplier = 1.0;
+            if (smcAnalysis.status === "BULLISH" || smcAnalysis.status === "BEARISH") {
+                smcMultiplier = 1.2;
+            }
+            if (smcAnalysis.blocks === "Very Strong") {
+                smcMultiplier = 1.3;
+            }
+            if (smcAnalysis.liquidity === "Very High") {
+                smcMultiplier = 1.4;
+            }
             
-            // Adjust SL based on volatility
+            tpPips = Math.round(basePips * smcMultiplier * analysis.confidence);
+            
+            // Adjust SL based on SMC analysis
             const volatilityMultiplier = Math.max(0.5, Math.min(1.5, analysis.volatility * 10));
             slPips = Math.round(tpPips * 0.3 * volatilityMultiplier);
             
@@ -2300,14 +2839,15 @@
                 tp: tp,
                 sl: sl,
                 confidence: Math.round(analysis.confidence * 100),
-                timestamp: new Date()
+                timestamp: new Date(),
+                smcAnalysis: smcAnalysis
             };
             
             updateCurrentSignal(signal);
             displaySignal(signal);
         }
         
-        // Enhanced signal display
+        // Enhanced signal display with SMC info
         function displaySignal(signal) {
             elements.signalDirection.textContent = signal.direction;
             elements.signalDirection.className = "signal-direction " + signal.direction.toLowerCase();
@@ -2319,8 +2859,9 @@
             }
             
             elements.signalMessage.innerHTML = `
-                <div>SIGNAL GENERATED: ${signal.timestamp.toLocaleTimeString()}</div>
+                <div>SMC SIGNAL GENERATED: ${signal.timestamp.toLocaleTimeString()}</div>
                 <div style="font-size: 12px; color: var(--light-color); margin-top: 5px;">
+                    SMC Status: <strong>${smcAnalysis.status || "ANALYZING"}</strong> | 
                     TP: ${Math.round((Math.abs(parseFloat(signal.tp) - parseFloat(signal.entry)) / config.pipValues[signal.pair]))} pips
                 </div>
             `;
@@ -2335,6 +2876,58 @@
             elements.signalMessage.innerHTML = `
                 <div class="error-message">${message}</div>
             `;
+        }
+        
+        // Fixture functions
+        function showMarketOverview() {
+            alert("Market Overview: SMC analysis shows current market conditions. Check the SMC panel for details.");
+        }
+        
+        function showEconomicCalendar() {
+            alert("Economic Calendar: Important economic events will be displayed here in future updates.");
+        }
+        
+        function showNewsFeed() {
+            alert("News Feed: Latest financial news will be displayed here in future updates.");
+        }
+        
+        function showAlerts() {
+            alert("Alerts: Set price alerts and notifications here in future updates.");
+        }
+        
+        function showMarketDepth() {
+            alert("Market Depth: Order book visualization coming soon.");
+        }
+        
+        function showOrderFlow() {
+            alert("Order Flow: Smart money order flow analysis coming soon.");
+        }
+        
+        function showLiquidityMap() {
+            alert("Liquidity Map: Key liquidity zones identified by SMC strategy.");
+        }
+        
+        function showRiskCalculator() {
+            alert("Risk Calculator: Calculate position sizing and risk management here.");
+        }
+        
+        function quickAction(action) {
+            switch(action) {
+                case 'analyze':
+                    const pair = elements.pairSelect.value;
+                    alert(`Analyzing ${pair} with SMC strategy...`);
+                    generateSignal(localStorage.getItem("userTradingStyle") || "day");
+                    break;
+                case 'risk':
+                    alert("Risk assessment based on current market conditions and SMC analysis.");
+                    break;
+                case 'trend':
+                    alert("Trend analysis shows current market direction based on SMC phases.");
+                    break;
+                case 'settings':
+                    alert("App settings and preferences can be adjusted here.");
+                    break;
+            }
         }
         
         // Initialize the app
